@@ -28,6 +28,10 @@ public class Role implements Serializable{
         this.name = name;
     }
 
+    public Role(String role) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getRoleID() {
         return id;
     }

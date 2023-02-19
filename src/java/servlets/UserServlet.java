@@ -6,10 +6,18 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.Role;
+import models.User;
+import services.RoleService;
+import services.UserService;
 
 /**
  *
@@ -20,22 +28,80 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        
+        UserService us = new UserService();
+        RoleService rs= new RoleService();
+        String action = request.getParameter("action");
 
-       
+        try{
+            if (action != null && action.equals("edit")){
+                String email = request.getParameter("email");
+                User selUser = us.get(email);
+                request.setAttribute("selUser", selUser);
+                request.setAttribute("email", selUser.getEmail());
+            } else if (action != null && action.equals("delete")){
+                String email = request.getParameter("email");
+                us.delete(email);
+                List<User> users = us.getAll();
+                    if(users.isEmpty()){
+                        request.setAttribute("errorMessage", "No users found. Please add a user.");
+                    }
+            }
+            
+            List<User> users = us.getAll();
+            request.setAttribute("users", users);
+            
+            List<Role> roles = rs.getAll();
+            request.setAttribute("roles", roles);
+            
+        } catch (Exception ex){
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("errorMessage", "error");
+        }
+        
+    getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+    
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        UserService us = new UserService(); 
+        
+        String action = request.getParameter("action");
+        String email = (String) session.getAttribute("email");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String password = request.getParameter("password");
+        String role = request.getParameter("role");
+        Role newRole = new Role(role);
+        
+        try{
+            switch (action){
+                case "insert": us.insert(email, firstName, lastName, password, newRole);
+                    break;
+                case "update": us.update(email, firstName, lastName, password, newRole);
+                    break;
+                case "delete": us.delete(email);
+                    break;
+            }
+            request.setAttribute("erorrMessage", action);
+        } catch (Exception ex){
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("errorMessage", "error");
+        }
+        
+        try {
+            List<User> users = us.getAll();
+            request.setAttribute("users", users);
+        } catch (Exception ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("errorMessage", "error");
+        }
+        
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
     
     }
-
-    
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }
