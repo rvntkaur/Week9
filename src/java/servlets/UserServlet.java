@@ -66,12 +66,10 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession();
-        UserService us = new UserService(); 
-        
+
+        UserService us = new UserService();   
         String action = request.getParameter("action");
-        String email = (String) session.getAttribute("email");
+        String email = request.getParameter("email");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String password = request.getParameter("password");
@@ -87,7 +85,7 @@ public class UserServlet extends HttpServlet {
                 case "delete": us.delete(email);
                     break;
             }
-            request.setAttribute("erorrMessage", action);
+            request.setAttribute("errorMessage", action);
         } catch (Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("errorMessage", "error");

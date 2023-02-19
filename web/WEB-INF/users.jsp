@@ -71,6 +71,7 @@
         <c:if test="${selUser ne null}">           
             <h2>Edit Users</h2>
             <form action="users" method="post">
+                <input type="hidden" name="email" value="${selUser.email}"> 
                 Email: ${selUser.email} <br>
                 First Name: <input type="text" name="firstName" required value="${selUser.firstName}"> <br>
                 Last Name: <input type="text" name="lastName" required value="${selUser.lastName}"> <br>
@@ -79,12 +80,12 @@
                         <option value="systemAdmin">System Admin</option>
                         <option value="regularUser">Regular User</option>
                       </select> <br>
-                      <input type="submit" value="update">
-                      <input type="hidden" name="action" value="update">
-                      <input type="submit" name="action" value="Cancel">
+                      
+                    <input type="hidden" name="action" value="update">
+                    <input type="submit" value="Update">
+                    <a href="\users" class="button">Cancel</a>
             </form>
-          ${errorMessage}
         </c:if>
-      
+      ${errorMessage}
     </body>
 </html>
