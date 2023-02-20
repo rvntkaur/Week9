@@ -73,22 +73,20 @@ public class UserServlet extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        Role newRole = new Role(role);
-        
+        String userRole = request.getParameter("role");
+        Role newRole = new Role(userRole);
+
         try{
             switch (action){
-                case "insert": us.insert(email, firstName, lastName, password, newRole);
+                case "add": us.insert(email, firstName, lastName, password, newRole);
                     break;
                 case "update": us.update(email, firstName, lastName, password, newRole);
                     break;
-                case "delete": us.delete(email);
-                    break;
             }
-            request.setAttribute("errorMessage", action);
+ 
         } catch (Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("errorMessage", "error");
+            request.setAttribute("errorMessage", "errorcatch");
         }
         
         try {

@@ -27,24 +27,20 @@
             </tr>
             <c:forEach items="${users}" var="user">
                 <tr>
-                    <td name="email">${user.email}</td>
-                    <td name="firstName">${user.firstName}</td>
-                    <td name="lastName">${user.lastName}</td>
-                    <td name="role">${user.role}</td>
-                        <td>
-                            <c:url value="/users" var="editUser">
-                                <c:param name="email" value="${user.email}"/>
-                                <c:param name="action" value="edit"/>
-                            </c:url>
-                            <a href="${editUser}">Edit</a>
-                        </td>
-                        <td>
-                            <c:url value="/users" var="deleteUser">
-                                <c:param name="email" value="${user.email}"/>
-                                <c:param name="action" value="delete"/>
-                            </c:url>
-                            <a href="${deleteUser}">Delete</a>
-                        </td>
+                    <td>${user.email}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.role}</td>
+                    <td><c:url value="/users" var="editUser">
+                            <c:param name="email" value="${user.email}" />
+                            <c:param name="action" value="edit" />
+                        </c:url>
+                        <a href=${editUser}>Edit</a></td>
+                    <td><c:url value="/users" var="deleteUser">
+                            <c:param name="email" value="${user.email}" />
+                            <c:param name="action" value="delete" />
+                        </c:url>
+                        <a href=${deleteUser}>Delete</a></td>
                 </tr>
             </c:forEach>
         </table>      
@@ -56,13 +52,13 @@
                 First Name: <input type="text" name="firstName" required> <br>
                 Last Name: <input type="text" name="lastName" required> <br>
                 Password: <input type="text" name="password" required> <br>
-                Role: <select name="role" id="roles" required>
-                        <option value="systemAdmin">System Admin</option>
-                        <option value="regularUser">Regular User</option>
+                Role: <select name="role">
+                        <option value="system admin">system admin</option>
+                        <option value="regular user">regular user</option>
                       </select> <br>
                       
+                      <input type="hidden" name="action" value="add">
                 <input type="submit"value="Add User">
-                <input type="hidden" name="action" value="create">
             </form>
         </c:if> 
           
@@ -76,9 +72,9 @@
                 First Name: <input type="text" name="firstName" required value="${selUser.firstName}"> <br>
                 Last Name: <input type="text" name="lastName" required value="${selUser.lastName}"> <br>
                 Password: <input type="text" name="password" required> <br>
-                Role: <select name="role" id="roles" required>
-                        <option value="systemAdmin">System Admin</option>
-                        <option value="regularUser">Regular User</option>
+                Role: <select name="role">
+                        <option value="system admin">System admin</option>
+                        <option value="regular user">Regular user</option>
                       </select> <br>
                       
                     <input type="hidden" name="action" value="update">

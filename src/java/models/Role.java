@@ -27,9 +27,9 @@ public class Role implements Serializable{
         this.id = id;
         this.name = name;
     }
-
-    public Role(String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public Role(String name){
+        this.name = name;
     }
 
     public int getRoleID() {
@@ -46,9 +46,5 @@ public class Role implements Serializable{
 
     public void setRoleName(String name) {
         this.name = name;
-    }
-    
- 
-    
-    
+    }   
 }

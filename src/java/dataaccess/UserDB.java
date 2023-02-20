@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.ArrayList;
 import models.Role;
 import models.User;
+import services.RoleService;
 
 /**
  *
  * @author Renee
  */
 public class UserDB {
+    RoleService roleService = new RoleService();
+    
     public List<User> getAll() throws Exception{
         List<User> users = new ArrayList<>();
         ConnectionPool cp = ConnectionPool.getInstance();
@@ -85,15 +88,13 @@ public class UserDB {
         PreparedStatement ps = null;
         String sql = "INSERT INTO user (email, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?)";
         
-        Role role = new Role();
-        
         try{
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFirstName());
             ps.setString(3, user.getLastName());
             ps.setString(4, user.getPassword());
-            ps.setInt(5, role.getRoleID());
+            ps.setInt(5, roleService.get(user.getRole()));
             ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
@@ -105,9 +106,7 @@ public class UserDB {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "UPDATE user SET email=?, first_name=?, last_name=?, password=?, role=?";
-        
-        Role role = new Role();
+        String sql = "UPDATE user SET first_name=?, last_name=?, password=?, role=? WHERE email=?";
         
         try{
             ps = con.prepareStatement(sql);
@@ -115,7 +114,7 @@ public class UserDB {
             ps.setString(2, user.getFirstName());
             ps.setString(3, user.getLastName());
             ps.setString(4, user.getPassword());
-            ps.setInt(5, role.getRoleID());
+            ps.setInt(5, roleService.get(user.getRole()));
             ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
