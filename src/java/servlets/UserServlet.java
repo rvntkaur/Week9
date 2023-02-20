@@ -83,18 +83,13 @@ public class UserServlet extends HttpServlet {
                 case "update": us.update(email, firstName, lastName, password, newRole);
                     break;
             }
+            
+            List<User> users = us.getAll();
+            request.setAttribute("users", users);
  
         } catch (Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("errorMessage", "errorcatch");
-        }
-        
-        try {
-            List<User> users = us.getAll();
-            request.setAttribute("users", users);
-        } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("errorMessage", "error");
         }
         
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
