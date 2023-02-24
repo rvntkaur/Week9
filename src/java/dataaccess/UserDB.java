@@ -19,6 +19,7 @@ import services.RoleService;
  * @author Renee
  */
 public class UserDB {
+    
     RoleService roleService = new RoleService();
     
     public List<User> getAll() throws Exception{

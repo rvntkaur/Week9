@@ -30,7 +30,14 @@
                     <td>${user.email}</td>
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
-                    <td>${user.role}</td>
+                    <c:choose>
+                            <c:when test="${user.getRole().getRoleID() == 1}">
+                                <td>system admin</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>regular user</td>
+                            </c:otherwise>
+                        </c:choose>
                     <td><c:url value="/users" var="editUser">
                             <c:param name="email" value="${user.email}" />
                             <c:param name="action" value="edit" />
@@ -73,8 +80,8 @@
                 Last Name: <input type="text" name="lastName" required value="${selUser.lastName}"> <br>
                 Password: <input type="text" name="password" required> <br>
                 Role: <select name="role">
-                        <option value="system admin">System admin</option>
-                        <option value="regular user">Regular user</option>
+                        <option value="system admin">system admin</option>
+                        <option value="regular user">regular user</option>
                       </select> <br>
                       
                     <input type="hidden" name="action" value="update">
