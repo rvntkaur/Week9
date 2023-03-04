@@ -14,7 +14,7 @@
     </head>
     <body>
 <!-- First table for viewing the users-->
-        <h1>Manage Users</h1>
+        <h1>Manage Users Hii</h1>
         ${errorMessage}
         <table border="1">
             <tr>
