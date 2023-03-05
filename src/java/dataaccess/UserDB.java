@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import models.Role;
 import models.User;
-import services.RoleService;
 
 /**
  *
@@ -18,14 +17,12 @@ import services.RoleService;
  */
 public class UserDB {
     
-    RoleService roleService = new RoleService();
-    
     public List<User> getAll() throws Exception{
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         
         try{
             List<User> users = em.createNamedQuery("User.findAll", User.class).getResultList();
-              return users;
+            return users;
         }finally{
             em.close();
         }
@@ -37,7 +34,7 @@ public class UserDB {
         
         try{
             User user = em.find(User.class, email);
-                    return user;
+            return user;
         }finally{
             em.close();
         }
@@ -86,7 +83,7 @@ public class UserDB {
             role.getUserList().remove(user);
             trans.begin();
             em.remove(em.merge(user));
-            em.merge(user);
+            em.merge(role);
             trans.commit();
         } catch(Exception ex){
             trans.rollback();

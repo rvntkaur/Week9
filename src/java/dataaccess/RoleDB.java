@@ -30,7 +30,7 @@ public class RoleDB {
         
         try{
             Role role = em.find(Role.class, id);
-                    return role;
+            return role;
         }finally{
             em.close();
         }

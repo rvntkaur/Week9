@@ -29,7 +29,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         
         UserService us = new UserService();
-        RoleService rs= new RoleService();
+        RoleService rs = new RoleService();
         String action = request.getParameter("action");
 
         try{
@@ -66,23 +66,24 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserService us = new UserService();   
-        String action = request.getParameter("action");
-        String email = request.getParameter("email");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String password = request.getParameter("password");
-        String userRole = request.getParameter("role");
-        Role newRole = new Role(userRole);
-
+        UserService us = new UserService();
+        RoleService rs = new RoleService();
+              
         try{
+            String action = request.getParameter("action");
+            String email = request.getParameter("email");
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String password = request.getParameter("password");
+            String userRole = request.getParameter("role");
+            
             switch (action){
-                case "add": us.insert(email, firstName, lastName, password, newRole);
+                case "add": us.insert(email, firstName, lastName, password, rs.get(userRole));
                     break;
-                case "update": us.update(email, firstName, lastName, password, newRole);
+                case "update": us.update(email, firstName, lastName, password, rs.get(userRole));
                     break;
             }
-            
+             
             List<User> users = us.getAll();
             request.setAttribute("users", users);
  

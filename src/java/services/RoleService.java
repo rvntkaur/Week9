@@ -21,9 +21,8 @@ public class RoleService {
         return roles;
     }
     
-    public int get(Role role) throws Exception {
-        String name = role.getRoleName();
-        if (name.equals("system admin")) {
+    public int get(String roleId) throws Exception {
+         if (roleId.equals("system admin")) {
             return 1;
         } else {
             return 2;
