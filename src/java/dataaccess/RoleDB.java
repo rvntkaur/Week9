@@ -11,7 +11,7 @@ import models.Role;
 
 /**
  *
- * @author Renee
+ * @author Burhan
  */
 public class RoleDB {
     public List<Role> getAll() throws Exception{
